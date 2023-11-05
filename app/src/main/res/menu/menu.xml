@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="Add Note" android:id="@+id/add_note"></item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title=""
+        android:id="@+id/add_note"
+        android:icon="@android:drawable/ic_menu_add"
+        app:showAsAction="always"></item>
 </menu>

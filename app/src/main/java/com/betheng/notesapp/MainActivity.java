@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,17 +26,18 @@ import java.util.HashSet;
 public class MainActivity extends AppCompatActivity {
 
     static ArrayList<String> notes = new ArrayList<>();
-    static ArrayAdapter<String> arrayAdapter;
+    static CustomListAdapter arrayAdapter;
+//    static ArrayAdapter arrayAdapter;
     static SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // assigning ID of the toolbar to a variable
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // using toolbar as ActionBar
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        setTitle("Notes");
 
         sharedPreferences = getApplicationContext().getSharedPreferences("com.betheng.notesapp", Context.MODE_PRIVATE);
         HashSet<String> set = (HashSet<String>) sharedPreferences.getStringSet("notes", null);
@@ -46,48 +48,23 @@ public class MainActivity extends AppCompatActivity {
             notes = new ArrayList(set);
         }
 
-        ListView listView = (ListView) findViewById(R.id.listView);
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, notes);
-        listView.setAdapter(arrayAdapter);
+        arrayAdapter = new CustomListAdapter(this, notes);
+//        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, notes);
 
+        ListView listView = findViewById(R.id.listView);
+
+        listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i("Hello","Hello");
                 Intent intent = new Intent(getApplicationContext(), NotesEditorActivity.class);
                 intent.putExtra("noteId", i);
+                intent.putExtra("title", "Edit Note");
                 startActivity(intent);
             }
         });
-
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                int itemToDelete = i;
-
-                new AlertDialog.Builder(MainActivity.this)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Are you sure?")
-                        .setMessage("Do you want to delete this note")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                notes.remove(itemToDelete);
-                                arrayAdapter.notifyDataSetChanged();
-
-                                HashSet<String> set = new HashSet<>(notes);
-                                sharedPreferences.edit().putStringSet("notes", set).apply();
-                            }
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
-
-                return false;
-            }
-        });
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -101,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.add_note){
             Intent intent = new Intent(getApplicationContext(), NotesEditorActivity.class);
+            intent.putExtra("title", "New Note");
             startActivity(intent);
 
             return true;

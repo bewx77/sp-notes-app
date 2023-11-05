@@ -6,16 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".NotesEditorActivity">
 
-    <EditText
-        android:id="@+id/noteEditText"
-        android:layout_width="339dp"
-        android:layout_height="73dp"
-        android:ems="10"
-        android:hint="description"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.531" />
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"></androidx.appcompat.widget.Toolbar>
+
+
+    <EditText
+        android:id="@+id/noteEditText"
+        android:layout_width="342dp"
+        android:layout_height="573dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/grey_border"
+        android:ems="10"
+        android:gravity="top|left"
+        android:hint="description"
+        android:inputType="textMultiLine"
+        android:maxLines="50"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
